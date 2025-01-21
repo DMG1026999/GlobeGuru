@@ -62,3 +62,118 @@ const form = document.getElementById("contactForm");
             // Clear the form inputs
             form.reset();
         });
+
+// Recommendation functionality 
+// Fetch and render data from the JSON file
+document.addEventListener("DOMContentLoaded", () => {
+    // Fetch data from the JSON file
+    fetch('travel_recommendation.json') // Replace 'data.json' with the actual path to your JSON file
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            renderCountries(data.countries);
+            renderTemples(data.temples);
+            renderBeaches(data.beaches);
+        })
+        .catch((error) => {
+            console.error("There was a problem with the fetch operation:", error);
+        });
+});
+
+// Render countries and their cities
+function renderCountries(countries) {
+    const container = document.getElementById("countries");
+    countries.forEach((country) => {
+        const countrySection = document.createElement("div");
+        countrySection.className = "country";
+
+        const countryTitle = document.createElement("h2");
+        countryTitle.textContent = country.name;
+        countrySection.appendChild(countryTitle);
+
+        country.cities.forEach((city) => {
+            const cityCard = document.createElement("div");
+            cityCard.className = "card";
+
+            const cityImage = document.createElement("img");
+            cityImage.src = city.imageUrl;
+            cityImage.alt = city.name;
+
+            const cityName = document.createElement("h3");
+            cityName.textContent = city.name;
+
+            const cityDescription = document.createElement("p");
+            cityDescription.textContent = city.description;
+
+            cityCard.appendChild(cityImage);
+            cityCard.appendChild(cityName);
+            cityCard.appendChild(cityDescription);
+            countrySection.appendChild(cityCard);
+        });
+
+        container.appendChild(countrySection);
+    });
+}
+
+// Render temples
+function renderTemples(temples) {
+    const container = document.getElementById("temples");
+    temples.forEach((temple) => {
+        const templeCard = document.createElement("div");
+        templeCard.className = "card";
+
+        const templeImage = document.createElement("img");
+        templeImage.src = temple.imageUrl;
+        templeImage.alt = temple.name;
+
+        const templeName = document.createElement("h3");
+        templeName.textContent = temple.name;
+
+        const templeDescription = document.createElement("p");
+        templeDescription.textContent = temple.description;
+
+        templeCard.appendChild(templeImage);
+        templeCard.appendChild(templeName);
+        templeCard.appendChild(templeDescription);
+        container.appendChild(templeCard);
+    });
+}
+
+// Render beaches
+function renderBeaches(beaches) {
+    const container = document.getElementById("beaches");
+    beaches.forEach((beach) => {
+        const beachCard = document.createElement("div");
+        beachCard.className = "card";
+
+        const beachImage = document.createElement("img");
+        beachImage.src = beach.imageUrl;
+        beachImage.alt = beach.name;
+
+        const beachName = document.createElement("h3");
+        beachName.textContent = beach.name;
+
+        const beachDescription = document.createElement("p");
+        beachDescription.textContent = beach.description;
+
+        beachCard.appendChild(beachImage);
+        beachCard.appendChild(beachName);
+        beachCard.appendChild(beachDescription);
+        container.appendChild(beachCard);
+    });
+}
+    
+    // Call it like this:
+    renderItems(data.temples, "temples");
+    renderItems(data.beaches, "beaches");
+    
+        resetButton.addEventListener("click", function () {
+        searchInput.value = ""; // Clear the search input
+        document.querySelectorAll(".content").forEach((section) => {
+        section.style.backgroundColor = ""; // Remove highlight
+    });
+});
